@@ -41,5 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CRTWaitForCarbonUnit.inl" />
+    <None Include="ShowProgramInfo.inl" />
+    <None Include="ShowPlatform.inl" />
   </ItemGroup>
 </Project>

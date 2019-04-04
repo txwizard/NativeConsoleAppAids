@@ -47,23 +47,30 @@
 	Revision History
 	----------------------------------------------------------------------------
 
-	Date       By  Synopsis	RCDATA_MAX_BUFFER_P6C
-	---------- --- -------------------------------------------------------------
-	2019/03/21 DAG Header created and first used in VSProjectSettingsTester.exe
+	Date       Version By  Synopsis	RCDATA_MAX_BUFFER_P6C
+	---------- ------- --- -----------------------------------------------------
+	2019/03/21 1.0.0.1 DAG Created and first used in VSProjectSettingsTester.exe
 
-	2019/03/22 DAG WaitForCarbonUnit added, ProgramIDFromArgV implemented for
-	               both ANSI and wide character (Unicode) strings, everything
-				   else implemented for ANSI and Unicode strings and all
-				   function arguments documented
+	2019/03/22 1.0.0.2 DAG WaitForCarbonUnit added, ProgramIDFromArgV
+	                       implemented for both ANSI and wide character
+						   (Unicode) strings, everything else implemented for
+						   ANSI and Unicode strings and all function arguments
+						   documented
 
-	2019/03/23 DAG GetFileVersion now uses the Windows heap allocators directly,
-	               while ProgramIDFromArgV returns through memcpy. The first
-				   change eliminates a reliance on the CRT memory allocators,
-				   which I seldom use, to avoid the overhead of having the CRT
-				   library turn around and call the Windows heap allocators,
-				   adding nothing of value. The second change eliminates wasted
-				   machine instructions that load a value into the EAX register
-				   that memcpy already put there.
+	2019/03/23 1.0.0.3 DAG GetFileVersion now uses the Windows heap allocators
+	                       directly, while ProgramIDFromArgV returns through
+						   memcpy. The first change eliminates a reliance on the
+						   CRT memory allocators, which I seldom use, to avoid
+						   the overhead of having the CRT library turn around
+						   and call the Windows heap allocators, adding nothing
+						   of value. The second change eliminates wasted machine
+						   instructions that load a value into the EAX register
+						   that memcpy already put there.
+
+	2019/04/03 1.0.0.4 DAG ShowPlatform and ShowProgramInfo get a Boolean flag 
+	                       that is set to TRUE to send its output to the 
+						   standaard error stream, for use with programs that 
+						   always write only to the standard output stream.
 	============================================================================
 */
 
@@ -459,9 +466,17 @@ extern "C" {
 	//						the information is supplied through a preprocessor
 	//						symbol.
 	//
-	//  In:                 plpszFormatString	= template (format control)
-	//                                            string to use to display the
-	//											  platform if it is known
+	//  In:                 plpszFormatString		= template (format control)
+	//												  string to use to display
+	//											      the platform
+	//
+	//						pfDirectToStandardError	= flag to send output to the
+	//                                                standard error stream,
+	//                                                instead of to the standard
+	//                                                output stream:
+	//
+	//													TRUE  = standard error
+	//													FALSE = standard output
 	//
 	//  Out:                This function reports via the caller's console
 	//						output stream, and has no return value.
@@ -476,12 +491,14 @@ extern "C" {
 
 	void    LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowPlatformA
 	(
-		LPCTSTR			plpszFormatString
+		LPCTSTR			plpszFormatString ,
+		BOOL            pfDirectToStandardError
 	);
 
 	void    LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowPlatformW
 	(
-		LPCTSTR			plpszFormatString
+		LPCTSTR			plpszFormatString ,
+		BOOL            pfDirectToStandardError
 	);
 
 
@@ -492,6 +509,14 @@ extern "C" {
 	//                      for use, in situ, by any routine that deals in such
 	//                      strings.
 	//
+	//	In:					pfDirectToStandardError	= flag to send output to the
+	//                                                standard error stream,
+	//                                                instead of to the standard
+	//                                                output stream:
+	//
+	//													TRUE  = standard error
+	//													FALSE = standard output
+	//
 	//  Out:                If it succeeds, the return value is a pointer to a
 	//						string that contains the program name. Otherwise, it
 	//						returns a NULL pointer to indicate failure.
@@ -501,9 +526,15 @@ extern "C" {
 	//						returns a status code, which is expected to be zero.
 	//  ------------------------------------------------------------------------
 
-	LPTSTR     LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowProgramInfoA ( );
+	LPTSTR     LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowProgramInfoA
+	(
+		BOOL pfDirectToStandardError
+	);
 
-	LPTSTR     LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowProgramInfoW ( );
+	LPTSTR     LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowProgramInfoW
+	(
+		BOOL pfDirectToStandardError
+	);
 
 
 	//  ------------------------------------------------------------------------

@@ -11,7 +11,7 @@ int wmain ( int argc , wchar_t * argv [ ] )
 	int rintRC				= NO_ERROR;
 	LPTSTR lpszProgramID	= NULL;
 
-	if ( ( lpszProgramID = ShowProgramInfo ( ) ) )
+	if ( ( lpszProgramID = ShowProgramInfo ( FALSE ) ) )
 	{
 		_tprintf ( L"Hello World!\n" );
 		_tprintf ( L"\n%s done!\n" ,

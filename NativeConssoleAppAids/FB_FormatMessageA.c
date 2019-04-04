@@ -38,6 +38,9 @@ static LPCTSTR szFixedMsgs [ ] =
 	_T( "Error code = 0x%08x\nWindows API function FormatMessage failed,\n     returning error code 0x%08x\n" ) ,
 };	// static LPCTSTR szFixedMsgs
 
+// ToDo: Investigate linkage editor warnint:   LINK : warning C4742: 'achrStringBuf' has different alignment in 'f:\source_code\visual_studio\projects\native\dll\nativeconsoleappaids\nativeconssoleappaids\fb_formatmessagew.c'  and 'f:\source_code\visual_studio\projects\native\dll\nativeconsoleappaids\nativeconssoleappaids\fb_formatmessagea.c': 2 and 1.
+// ToDo: Ditto for achrSprintFBuf.
+
 TCHAR achrSprintFBuf [ RCDATA_MAX_BUFFER_P6C ];
 TCHAR achrStringBuf  [ RCDATA_MAX_BUFFER_P6C ];
 

@@ -17,45 +17,9 @@
 
 void LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowPlatformW
 (
-	LPCTSTR plpszFormatString
+	LPCTSTR plpszFormatString ,
+	BOOL    pfDirectToStandardError
 )
 {
-	#if defined ( PLATFORM_IS_Win32 )
-		_tprintf ( plpszFormatString ,
-			       GetStringPointer ( m_hModuleOfThisDLL ,
-					                  IDS_STRING105 ,
-					                  FB_HIDE_LENGTH ) );
-		#define PLATFORM_IS_DEFINED
-	#endif	/* #if defined ( PLATFORM_IS_Win32 ) */
-
-	#if defined ( PLATFORM_IS_x64 )
-		_tprintf ( plpszFormatString ,
-			       GetStringPointer ( m_hModuleOfThisDLL ,
-					                  IDS_STRING106 ,
-					                  FB_HIDE_LENGTH ) );
-		#define PLATFORM_IS_DEFINED
-	#endif	/* #if defined ( PLATFORM_IS_x64 ) */
-
-	#if defined ( PLATFORM_IS_ARM )
-		_tprintf ( plpszFormatString ,
-			       GetStringPointer ( m_hModuleOfThisDLL ,
-					                  IDS_STRING107 ,
-					                  FB_HIDE_LENGTH ) );
-		#define PLATFORM_IS_DEFINED
-	#endif	/* #if defined ( PLATFORM_IS_ARM ) */
-
-	#if defined ( PLATFORM_IS_ARM64 )
-		_tprintf ( plpszFormatString ,
-			       GetStringPointer ( m_hModuleOfThisDLL ,
-					                  IDS_STRING108 ,
-					                  FB_HIDE_LENGTH ) );
-		#define PLATFORM_IS_DEFINED
-	#endif	/* #if defined ( PLATFORM_IS_ARM64 ) */
-
-#if !defined ( PLATFORM_IS_DEFINED )
-		_tprintf ( plpszFormatString ,
-			       GetStringPointer ( m_hModuleOfThisDLL ,
-					                  IDS_STRING118 ,
-					                  FB_HIDE_LENGTH ) );
-#endif	/* #if !defined ( PLATFORM_IS_DEFINED ) */
+	#include ".\ShowPlatform.inl"
 }	// ShowPlatformW

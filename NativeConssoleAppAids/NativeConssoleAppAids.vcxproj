@@ -898,6 +898,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CRTWaitForCarbonUnit.inl" />
+    <None Include="ShowPlatform.inl" />
+    <None Include="ShowProgramInfo.inl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="NativeConssoleAppAids.rc" />

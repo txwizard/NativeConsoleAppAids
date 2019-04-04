@@ -1,8 +1,11 @@
 # NativeConssoleAppAids for Intel and ARM Processors ReadMe
 
-__Current Version:__ 1.0.0.1
+__Current Version:__ 1.0.0.4
 
-__Release Date:__ Sunday, 31 March 2019
+__Release Date:__ Wednesday, 03 April 2019
+
+This update adds a paramter to two routines to allow output to be redirected to
+the standard error stream. Details are in the namesake header.
 
 The purpose of this repository is to publish a port of a straightforward library
 of helper routines to identify and display information about the hardware on

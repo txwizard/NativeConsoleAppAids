@@ -807,6 +807,7 @@
     <ResourceCompile Include="UnitTests.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\EXE\Console\Create32\WW_Icon1.ico" />
     <Image Include="..\..\Create32\WW_Icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

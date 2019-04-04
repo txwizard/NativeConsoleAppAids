@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\Create32\WW_Icon1.ico" />
+    <Image Include="..\..\..\EXE\Console\Create32\WW_Icon1.ico" />
   </ItemGroup>
 </Project>
