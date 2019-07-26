@@ -15,14 +15,14 @@
 	LPTSTR lpszModuleBaseName = ProgramIDFromArgV ( lpModuleFileName );
 	FILE * hOutDest = pfDirectToStandardError ? stderr : stdout;
 
-	if ( rintResult = GetFileVersion( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
+	if ( rintResult = GetFileVersion ( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
 	{
 		_ftprintf ( hOutDest ,
 			        GetStringPointer ( m_hModuleOfThisDLL ,
 				                       IDS_STRING109 ,
 				                       FB_HIDE_LENGTH ) ,
 			        rintResult );
-	}	// TRUE (unanticipated outcome) block, if ( rintResult = GetFileVersion( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
+	}	// TRUE (unanticipated outcome) block, if ( rintResult = GetFileVersion ( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
 	else
 	{
 		_ftprintf ( hOutDest ,
@@ -31,7 +31,7 @@
 			                           FB_HIDE_LENGTH ) ,
 			        lpszModuleBaseName ,
 			        lpszVersionString );
-	}	// FALSE (anticipated outcome) block, if ( rintResult = GetFileVersion( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
+	}	// FALSE (anticipated outcome) block, if ( rintResult = GetFileVersion ( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
 
 	#pragma warning ( suppress : 4312 )
 	lpszVersionString	= ( LPTSTR ) FreeBuffer_WW ( lpszVersionString );

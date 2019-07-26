@@ -2,23 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="dllmain.c" />
-    <ClCompile Include="FB_FindLineEndA.c" />
-    <ClCompile Include="FB_FindLineEndW.c" />
-    <ClCompile Include="FB_FormatMessageA.c" />
-    <ClCompile Include="FB_FormatMessageW.c" />
-    <ClCompile Include="GetExeNameFromWindowsA.c" />
-    <ClCompile Include="GetExeNameFromWindowsW.c" />
-    <ClCompile Include="GetFileVersionA.c" />
-    <ClCompile Include="GetFileVersionW.c" />
-    <ClCompile Include="GetANSIStringPointer.c" />
-    <ClCompile Include="GetUnicodeStringPointer.c" />
-    <ClCompile Include="IsBufFerFromHeap.c" />
-    <ClCompile Include="ProgramIDFromArgVA.c" />
-    <ClCompile Include="ProgramIDFromArgVW.c" />
-    <ClCompile Include="ReportLoadStringErrorA.c" />
-    <ClCompile Include="ReportLoadStringErrorW.c" />
-    <ClCompile Include="ReportSystemErrorA.c" />
-    <ClCompile Include="ReportSystemErrorW.c" />
     <ClCompile Include="ShowPlatformA.c" />
     <ClCompile Include="ShowPlatformW.c" />
     <ClCompile Include="ShowProgramInfoA.c" />
@@ -35,13 +18,22 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TcharMacros_WW.H" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="NativeConssoleAppAids.rc" />
+    <ClInclude Include="NativeStringAids.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CRTWaitForCarbonUnit.inl" />
     <None Include="ShowProgramInfo.inl" />
     <None Include="ShowPlatform.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{9e7bc73a-b2e0-482f-a676-9de8498b320c}</UniqueIdentifier>
+      <Extensions>*.rc;*.ico;*.mc</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NativeConssoleAppAids.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

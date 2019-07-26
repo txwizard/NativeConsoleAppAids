@@ -71,34 +71,34 @@
     <ProjectGuid>{288477E3-0BE3-4EE6-9B76-5376242CC202}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NativeConssoleAppAids</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug_ANSI'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Multibyte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release_ANSI'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>Multibyte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -111,50 +111,15 @@
   <PropertyGroup>
     <OutDir>$(ProjectDir)..\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
-  <!--
-    ============================================================================
-    2019/03/22 - DAG - The AfterBuild task, defined at the bottom of this file,
-                       consumes this list of semicolon-delimited absolute file
-                       names to copy into the output directory.
-    ============================================================================
-  -->
-  <ItemGroup>
-    <TestSubjectDLL Include="$(ProjectDir)..\vcruntime140\$(Platform)\vcruntime140.dll" />
-  </ItemGroup>
-  <!--
-    ============================================================================
-    2019/03/11 - DAG - If my reading of "ARM Intrinsics" is correct, it may be
-                       that the Visual C++ cross compiler for ARM processors
-                       emits NEON instructions by default. That being the case,
-                       this project configuration file explicitly enables SSE2
-                       instructions when the platform is Win32 (x86) or Win64
-                       (x64), and is silent in that regard when the target is
-                       either ARM (ARM32) or ARM64.
-
-    Reference:	"ARM Intrinsics"
-			    https://docs.microsoft.com/en-us/cpp/intrinsics/arm-intrinsics?view=vs-2017
-
-	2019/03/22 - DAG - It appears that AdvancedVectorExtensions2 is equivalent
-	                   to StreamingSIMDExtensions2 for the x64 platform. For all
-	                   other platforms, both are disabled.
-
-	                   After further experimentation, I'm leaving the decision
-	                   to the compiler, since it appears that the default is to
-	                   use them if available.
-
-	                   Beware that silencing the project property allows the
-	                   value set in the user's default properties for the active
-	                   platform to bleed through.
-    ============================================================================
-  -->
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
     <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64' ">
     <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Platform)'!='Win32' AND '$(Platform)'!='x64' ">
+  <PropertyGroup Condition="'$(Platform)'!='Win32' AND '$(Platform)'!='x64'">
     <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros" />
@@ -165,21 +130,23 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <OmitFramePointers>false</OmitFramePointers>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <SDLCheck>true</SDLCheck>
+      <StringPooling>true</StringPooling>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
@@ -187,33 +154,33 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -226,38 +193,41 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -270,35 +240,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|ARM'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -311,34 +286,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -351,35 +332,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|ARM64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -392,40 +378,46 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <OmitFramePointers>false</OmitFramePointers>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <SDLCheck>true</SDLCheck>
@@ -433,7 +425,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
@@ -441,33 +433,32 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -480,38 +471,39 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
@@ -525,7 +517,7 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
@@ -533,33 +525,32 @@
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -572,87 +563,86 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
-      <DataExecutionPrevention>true</DataExecutionPrevention>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
-      <OptimizeReferences>true</OptimizeReferences>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-    </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <ConformanceMode>true</ConformanceMode>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <OmitFramePointers>false</OmitFramePointers>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <SDLCheck>true</SDLCheck>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
-      <WarningLevel>Level3</WarningLevel>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <!-- These options are the same for all configurations and platforms. -->
-      <Culture>0x0409</Culture>
-      <NullTerminateStrings>true</NullTerminateStrings>
-      <ShowProgress>true</ShowProgress>
-      <SuppressStartupBanner>false</SuppressStartupBanner>
-    </ResourceCompile>
-    <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
-      <TargetMachine>MachineX64</TargetMachine>
-      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <OmitFramePointers>false</OmitFramePointers>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <SDLCheck>true</SDLCheck>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
+      <Culture>0x0409</Culture>
+      <NullTerminateStrings>true</NullTerminateStrings>
+      <ShowProgress>true</ShowProgress>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </ResourceCompile>
+    <Link>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
+      <GenerateMapFile>true</GenerateMapFile>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Link>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|x64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -665,39 +655,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
-      <TargetMachine>MachineX64</TargetMachine>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-      <Command>call VS6_CopyLibs $(ProjectName) $(OutDir) $(PlatformArchitecture)</Command>
-      <Message>Install the DLL and link libraries into the central repository.</Message>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -710,36 +701,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|ARM'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -752,35 +747,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -793,36 +793,40 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|ARM64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;NATIVECONSSOLEAPPAIDS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -835,28 +839,32 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Windows</SubSystem>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeStringAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <!-- Setting this key to True implies FASTLINK. To override this behavior, specify DebugFull, which equates to a value of "Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)" for the Generate Debug Info property on the Linker property sheet. -->
       <GenerateMapFile>true</GenerateMapFile>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <MapFileName>$(OutDir)$(TargetName).map</MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
-      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent />
   </ItemDefinitionGroup>
@@ -866,29 +874,13 @@
     <ClInclude Include="MathMacros_WW.H" />
     <ClInclude Include="NativeConssoleAppAids.h" />
     <ClInclude Include="NativeConssoleAppAids_Pvt.h" />
+    <ClInclude Include="NativeStringAids.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TcharMacros_WW.H" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.c" />
-    <ClCompile Include="FB_FindLineEndA.c" />
-    <ClCompile Include="FB_FindLineEndW.c" />
-    <ClCompile Include="FB_FormatMessageA.c" />
-    <ClCompile Include="FB_FormatMessageW.c" />
-    <ClCompile Include="GetExeNameFromWindowsA.c" />
-    <ClCompile Include="GetExeNameFromWindowsW.c" />
-    <ClCompile Include="GetFileVersionA.c" />
-    <ClCompile Include="GetFileVersionW.c" />
-    <ClCompile Include="GetANSIStringPointer.c" />
-    <ClCompile Include="GetUnicodeStringPointer.c" />
-    <ClCompile Include="IsBufFerFromHeap.c" />
-    <ClCompile Include="ProgramIDFromArgVA.c" />
-    <ClCompile Include="ProgramIDFromArgVW.c" />
-    <ClCompile Include="ReportLoadStringErrorA.c" />
-    <ClCompile Include="ReportLoadStringErrorW.c" />
-    <ClCompile Include="ReportSystemErrorA.c" />
-    <ClCompile Include="ReportSystemErrorW.c" />
     <ClCompile Include="ShowPlatformA.c" />
     <ClCompile Include="ShowPlatformW.c" />
     <ClCompile Include="ShowProgramInfoA.c" />
@@ -907,48 +899,5 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <!--
-    ============================================================================
-    2019/03/05 - DAG - The TestSubjectDLL property is set in the last of two
-                       unlabeled ItemGroup nodes at the top of the project file.
-                       Since this task overrides the definition of an empty
-                       imported target, it must follow the import. To be on the
-                       safe side, it is defined dead last.
-
-    2019/03/14 - DAG - To find other empty targets such as these two that you
-                       can redefine (override) to do tuff, look for the
-                       following string at the beginning of an XML comment.
-
-                       		Redefine this target in your project
-
-                       The BeforeBuildGenerateSources target is ideal for
-                       displaying MSBuild property values.
-    ============================================================================
-  -->
-  <Target Name="BeforeBuildGenerateSources">
-    <Message Text="SolutionDir          = $(SolutionDir)" />
-    <Message Text="ProjectDir           = $(ProjectDir)" />
-    <Message Text="ProjectName          = $(ProjectName)" />
-    <Message Text="TargetName           = $(TargetName)" />
-    <Message Text="TargetExt            = $(TargetExt)" />
-    <Message Text="ProjectExt           = $(ProjectExt)" />
-    <Message Text="Platform             = $(Platform)" />
-    <Message Text="PlatformArchitecture = $(PlatformArchitecture)" />
-    <Message Text="Configuration        = $(Configuration)" />
-    <Message Text="OutDir               = $(OutDir)" />
-    <Message Text="IntDir               = $(IntDir)" />
-  </Target>
-  <!-- With a bit of work, this step could replace the PostBuild step, though it wouldn't be quite as transparent. -->
-  <!--
-    ============================================================================
-    2019/03/05 - DAG - The TestSubjectDLL property is set in the last of two
-                       unlabeled ItemGroup nodes at the top of the project file.
-                       Since this task overrides the definition of an empty
-                       imported target, it must follow the import. To be on the
-                       safe side, it is defined dead last.
-    ============================================================================
-  -->
-  <Target Name="AfterBuild">
-    <Copy SourceFiles="@(TestSubjectDLL)" DestinationFolder="$(OutDir)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
-  </Target>
+  <Import Project="$(UserRootDir)\Microsoft.Cpp.user.targets" Condition="exists('$(UserRootDir)\Microsoft.Cpp.user.targets')" />
 </Project>

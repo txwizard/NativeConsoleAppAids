@@ -71,35 +71,35 @@
     <ProjectGuid>{42B61494-4820-4B79-B23E-2E6F69E262E4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>UnitTests</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>UnitTests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)'=='Debug'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Debug_ANSI'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release_ANSI'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -112,13 +112,11 @@
   <PropertyGroup>
     <OutDir>$(ProjectDir)..\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
   <!--
     ============================================================================
@@ -128,7 +126,7 @@
     ============================================================================
   -->
   <ItemGroup>
-    <TestSubjectDLL Include="$(ProjectDir)..\vcruntime140\$(Platform)\vcruntime140.dll" />
+    <CrtLibraryDLL Include="$(ProjectDir)..\vcruntime140\$(Platform)\vcruntime140.dll;$(WWLinkLibPath)\NativeStringAids$(PlatformArchitecture).pdb;$(WWLinkLibPath)\NativeStringAids$(PlatformArchitecture).dll;" />
   </ItemGroup>
   <!--
     ============================================================================
@@ -159,7 +157,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
@@ -175,17 +173,16 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
       <TargetMachine>MachineX86</TargetMachine>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -195,13 +192,16 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -216,16 +216,16 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
       <TargetMachine>MachineX86</TargetMachine>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -235,13 +235,15 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
@@ -257,17 +259,16 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
-      <TerminalServerAware>true</TerminalServerAware>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -277,13 +278,16 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -298,16 +302,16 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -317,13 +321,16 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -338,15 +345,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -357,12 +364,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|ARM'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -377,15 +387,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -396,12 +406,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -416,15 +429,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -435,12 +448,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|ARM64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -455,15 +471,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -473,13 +489,15 @@
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
@@ -495,17 +513,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TargetMachine>MachineX86</TargetMachine>
-      <TerminalServerAware>true</TerminalServerAware>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -516,12 +532,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|Win32'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -536,16 +555,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TargetMachine>MachineX86</TargetMachine>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -556,12 +574,14 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
@@ -577,17 +597,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TargetMachine>MachineX64</TargetMachine>
-      <TerminalServerAware>true</TerminalServerAware>
       <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -598,12 +616,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|x64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -618,16 +639,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TargetMachine>MachineX64</TargetMachine>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -638,12 +658,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -658,15 +681,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -677,12 +700,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|ARM'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -697,15 +723,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -716,12 +742,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -736,15 +765,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -755,12 +784,15 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|ARM64'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- These options are the same for all configurations and platforms. -->
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -775,15 +807,15 @@
     <ResourceCompile>
       <Culture>0x0409</Culture>
       <NullTerminateStrings>true</NullTerminateStrings>
-      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);PROJ_IS_$(ProjectName);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowProgress>true</ShowProgress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>$(OutDir)NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
-      <SubSystem>Console</SubSystem>
-      <TerminalServerAware>true</TerminalServerAware>
+      <!-- These options are the same for all configurations and platforms. -->
+      <AdditionalDependencies>NativeConssoleAppAids$(PlatformArchitecture).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WWLinkLibPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -794,11 +826,14 @@
       <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <TerminalServerAware>true</TerminalServerAware>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="UnitTests.h" />
+    <ClInclude Include="NativeStringAids.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitTests.c" />
@@ -807,7 +842,6 @@
     <ResourceCompile Include="UnitTests.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\EXE\Console\Create32\WW_Icon1.ico" />
     <Image Include="..\..\Create32\WW_Icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -815,12 +849,6 @@
   </ImportGroup>
   <!--
     ============================================================================
-    2019/03/05 - DAG - The TestSubjectDLL property is set in the last of two
-                       unlabeled ItemGroup nodes at the top of the project file.
-                       Since this task overrides the definition of an empty
-                       imported target, it must follow the import. To be on the
-                       safe side, it is defined dead last.
-
     2019/03/14 - DAG - To find other empty targets such as these two that you
                        can redefine (override) to do tuff, look for the
                        following string at the beginning of an XML comment.
@@ -846,7 +874,7 @@
   </Target>
   <!--
     ============================================================================
-    2019/03/05 - DAG - The TestSubjectDLL property is set in the last of two
+    2019/03/05 - DAG - The CrtLibraryDLL property is set in the last of two
                        unlabeled ItemGroup nodes at the top of the project file.
                        Since this task overrides the definition of an empty
                        imported target, it must follow the import. To be on the
@@ -854,6 +882,6 @@
     ============================================================================
   -->
   <Target Name="AfterBuild">
-    <Copy SourceFiles="@(TestSubjectDLL)" DestinationFolder="$(OutDir)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(CrtLibraryDLL)" DestinationFolder="$(OutDir)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
   </Target>
 </Project>

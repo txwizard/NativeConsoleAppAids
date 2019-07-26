@@ -1,10 +1,36 @@
 # NativeConssoleAppAids for Intel and ARM Processors ReadMe
 
-__Current Version:__ 1.0.0.4
+__Current Version:__ 1.0.0.6
 
-__Release Date:__ Wednesday, 03 April 2019
+__Release Date:__ Friday, 26 July 2019, version 1.0.0.6
 
-This update adds a paramter to two routines to allow output to be redirected to
+This release completes the work that began in April 2019, shortly after I
+completed the ARM porting project that gave rise to them, when I discovered the
+preprocessor symbols that I felt certain must exist by which programs can deduce
+things about the compiler settings in force when they were built. Among other
+things, these flags enable programs to determine the hardware features at their
+disposal. This library uses a handful of them to identify and display a message
+that describes the hardware platform on which the DLL and its caller are
+executing. Thus, it is possible for a program to identify itself as either a 32
+or 64 bit program.
+
+Astute readers, please take note that there is no _public_ version 1.0.0.5. It
+was built and partially tested in house, but was never distributed to anyone.
+Version 1.0.0.6 is the improved version that was slated to be 1.0.0.5. Since
+local copies of version 1.0.0.5 exist, however, it gets a new version number, to
+disambiguate it completely from its partially completed predecessor.
+
+Also, since I've set aside the ARM porting project, and I didn't install the ARM
+SDKs into Visual Studio 2019, I didn't build the ARM and ARM64 configurations,
+which already work satisfactorily. Since I no longer have access to the ARM
+processor on which they received their final tests, building them was pointless.
+If somebody who has an ARM processor that runs Microsoft Windows 10, I shall be
+happy to build the two ARM configurations if you volunteer to test them and
+report to me. If you are interested, please open an issue.
+
+__Release Date:__ Wednesday, 03 April 2019, version 1.0.0.4
+
+This update adds a parameter to two routines to allow output to be redirected to
 the standard error stream. Details are in the namesake header.
 
 The purpose of this repository is to publish a port of a straightforward library

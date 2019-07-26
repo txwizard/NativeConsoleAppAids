@@ -64,11 +64,13 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #include <windows.h>					// Windows Header Files
 
-#include "Const_Typedefs_WW.H"
-#include "MathMacros_WW.H"
-#include "TcharMacros_WW.H"
+#include ".\Const_Typedefs_WW.H"
+#include ".\MathMacros_WW.H"
+#include ".\TcharMacros_WW.H"
 
-#include "NativeConssoleAppAids.h"
+#include ".\NativeStringAids.h"
+
+#include ".\NativeConssoleAppAids.h"
 
 #include "resource.h"
 
@@ -104,24 +106,6 @@
 #endif	/* #if !defined RCDATA_INPLACE_POINTER */
 
 #define SFM_ERR_FORMAT_UNKNOWN			3
-
-#if defined ( _WIN64 )
-    #define CONSOLE_INPUT_BUFFER_SIZE   0x0000000000000064
-
-    #define WFCU_BELL_DFLT_DURATION     0x00000000000002EE  // 750 milliseconds, for pdwDuration
-
-    #define WFCU_BELL_DFLT_FREQUENCY    0x0000000000000370  //    880 hertz, for pdwFreqquency default
-    #define WFCU_BELL_MAX_FREQUENCY     0x0000000000007FFF  // 32,767 hertz, for pdwFreqquency maximum
-    #define WFCU_BELL_MIN_FREQUENCY     0x0000000000000025  //     37 hertz, for pdwFreqquency minimum
-#else
-    #define CONSOLE_INPUT_BUFFER_SIZE   0x00000064L
-
-    #define WFCU_BELL_DFLT_DURATION     0x000002EEL         // 750 milliseconds, for pdwDuration
-
-    #define WFCU_BELL_DFLT_FREQUENCY    0x00000370L         //    880 hertz, for pdwFreqquency default
-    #define WFCU_BELL_MAX_FREQUENCY     0x00007FFFL         // 32,767 hertz, for pdwFreqquency maximum
-    #define WFCU_BELL_MIN_FREQUENCY     0x00000025L         //     37 hertz, for pdwFreqquency minimum
-#endif  /* #if defined ( _WIN64 ) ) */
 
 #define WFCU_DEFAULT_PROMPT             TEXT ( "Please press the Return (ENTER) key to exit the program.\n" )
 #define WFCU_NONZERO_STATUS_CODE_MSG    TEXT ( "\nStatus code = 0x%04X (%i decimal)\n" )

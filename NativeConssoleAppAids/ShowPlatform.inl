@@ -3,41 +3,63 @@
 //                    the hardware platform for which it was built.
 //	============================================================================
 
-	LPTSTR lpszPlatformString = NULL;
+#if defined ( _MSC_VER ) && ( _MSC_VER >= 1020 )
+	#if defined ( _M_X64 )
+		#define PLATFORM_NAME_ID		IDS_STRING106
+	#endif	/* _M_X64 */
 
-	#if defined ( PLATFORM_IS_Win32 )
-		lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
-			                                    IDS_STRING105 ,
-				                                FB_HIDE_LENGTH );
-		#define PLATFORM_IS_DEFINED
-	#endif	/* #if defined ( PLATFORM_IS_Win32 ) */
+	#if  defined ( _M_IX86 )
+		#define PLATFORM_NAME_ID		IDS_STRING105
+	#endif /* _M_IX86 */
 
-	#if defined ( PLATFORM_IS_x64 )
-		lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
-			                                    IDS_STRING106 ,
-				                                FB_HIDE_LENGTH );
-		#define PLATFORM_IS_DEFINED
-	#endif	/* #if defined ( PLATFORM_IS_x64 ) */
+	#if defined ( _M_ARM64 )
+		#define PLATFORM_NAME_ID		IDS_STRING108
+	#endif /* _M_ARM64 */
+
+	#if defined ( _M_ARM )
+		#define PLATFORM_NAME_ID		IDS_STRING107
+	#endif /* _M_ARM  */
+
+	#if !defined ( PLATFORM_NAME_ID )
+		#define PLATFORM_NAME_ID		IDS_STRING118
+	#endif /* !defined ( PLATFORM_NAME_ID ) */
+#else	/* #if defined ( _MSC_VER ) && ( _MSC_VER >= 1020 ) */
+	#if defined ( _M_AMD64 )
+		#define PLATFORM_NAME_ID	IDS_STRING119
+	#endif	/* _M_AMD64 */
+
+	#if defined (_M_ARM )
+		#define PLATFORM_NAME_ID	IDS_STRING107
+	#endif	/* _M_AMD64 */
+
+	#if  defined ( _M_ARM_ARMV7VE )
+		#define PLATFORM_NAME_ID	IDS_STRING120
+	#endif /* _M_ARM_ARMV7VE */
+
+	#if ( defined ( _M_IX86 ) || defined ( _WIN32 ) )
+		#define PLATFORM_NAME_ID	IDS_STRING105
+	#endif	/* _M_IX86 || _WIN32 */
+
+	#if ( defined ( _M_X64 ) || defined ( _WIN64) ) )
+		#define PLATFORM_NAME_ID	IDS_STRING106
+	#endif	/* _M_X64 || _WIN64 */
 
 	#if defined ( PLATFORM_IS_ARM )
-		lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
-			                                    IDS_STRING107 ,
-				                                FB_HIDE_LENGTH );
-		#define PLATFORM_IS_DEFINED
+		#define PLATFORM_NAME_ID		IDS_STRING107
 	#endif	/* #if defined ( PLATFORM_IS_ARM ) */
 
 	#if defined ( PLATFORM_IS_ARM64 )
-		lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
-			                                    IDS_STRING108 ,
-				                                FB_HIDE_LENGTH );
-		#define PLATFORM_IS_DEFINED
+		#define PLATFORM_NAME_ID		IDS_STRING108
 	#endif	/* #if defined ( PLATFORM_IS_ARM64 ) */
 
-	#if !defined ( PLATFORM_IS_DEFINED )
-		lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
-			                                    IDS_STRING118 ,
-				                                FB_HIDE_LENGTH );
-	#endif	/* #if !defined ( PLATFORM_IS_DEFINED ) */
+	#if !defined ( PLATFORM_NAME_ID )
+		#define PLATFORM_NAME_ID		IDS_STRING118
+	#endif	/* #if !defined ( PLATFORM_NAME_ID ) */
+#endif	/* #if defined ( _MSC_VER ) && ( _MSC_VER >= 1020 ) */
+
+	LPTSTR	lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
+						                            PLATFORM_NAME_ID ,
+									                FB_HIDE_LENGTH );
 
 	_ftprintf ( pfDirectToStandardError ? stderr : stdout ,
 		        plpszFormatString ,

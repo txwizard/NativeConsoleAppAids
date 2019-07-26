@@ -1,22 +1,22 @@
 /*
 	============================================================================
 
-	File Name:			WaitForCarbounUnitA.C
+	File Name:			WaitForCarbonUnitA.C
 
 	Header:				The declaration of this function finally has a place to
 						call home, NativeConssoleAppAids.h.
 
 	File Synopsis:		This file defines the implementation of function
-						WaitForCarbounUnitA (ANSI) and WaitForCarbounUnitW (wide
+						WaitForCarbonUnitA (ANSI) and WaitForCarbonUnitW (wide
 						character, or Unicode), which is identical apart from
 						the character encoding.
 
-	Function Synopsis:	WaitForCarbounUnitA provides a portable mechanism to
+	Function Synopsis:	WaitForCarbonUnitA provides a portable mechanism to
 						cause a program that is about to end to block until a
 						carbon unit arrives to acknowledge its final message.
 
 	Remarks:			This is the ANSI (narrow character) implemntation of a
-						generic routine named WaitForCarbounUnit.
+						generic routine named WaitForCarbonUnit.
 
 	Author:				David A. Gray, MBA
 
@@ -42,10 +42,10 @@
 
 #include ".\NativeConssoleAppAids_Pvt.h"
 
-int     LIBSPEC_NATIVECONSSOLEAPPAIDS_API WaitForCarbounUnitA
+int     LIBSPEC_NATIVECONSSOLEAPPAIDS_API WaitForCarbonUnitA
 (
 	const LPCRTWaitForCarbonUnit plpCRTWaitForCarbonUnit
 )
 {
 	#include ".\CRTWaitForCarbonUnit.inl"
-}	// WaitForCarbounUnitA
+}	// WaitForCarbonUnitA
