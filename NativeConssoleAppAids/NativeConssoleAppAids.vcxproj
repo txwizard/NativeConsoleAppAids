@@ -127,6 +127,46 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)$(PlatformArchitecture)</TargetName>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|Win32'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</IncludePath>
+    <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(WWIncludePath);</ExternalIncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(WWLinkLibPath);</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
@@ -144,6 +184,11 @@
       <StringPooling>true</StringPooling>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <OpenMPSupport>false</OpenMPSupport>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -173,8 +218,16 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <PerUserRedirection>true</PerUserRedirection>
+      <MapExports>true</MapExports>
+      <TypeLibraryResourceID />
+      <CLRSupportLastError>Enabled</CLRSupportLastError>
     </Link>
     <PostBuildEvent />
+    <Manifest>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_ANSI|x64'">
     <ClCompile>
@@ -191,6 +244,13 @@
       <SDLCheck>true</SDLCheck>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <OpenMPSupport>false</OpenMPSupport>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PLATFORM_IS_$(Platform);_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -220,8 +280,16 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <PerUserRedirection>true</PerUserRedirection>
+      <MapExports>true</MapExports>
+      <TypeLibraryResourceID />
+      <CLRSupportLastError>Enabled</CLRSupportLastError>
     </Link>
     <PostBuildEvent />
+    <Manifest>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
@@ -607,6 +675,12 @@
       <SDLCheck>true</SDLCheck>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <OpenMPSupport>false</OpenMPSupport>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -635,8 +709,16 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <PerUserRedirection>true</PerUserRedirection>
+      <MapExports>true</MapExports>
+      <TypeLibraryResourceID />
+      <CLRSupportLastError>Enabled</CLRSupportLastError>
     </Link>
     <PostBuildEvent />
+    <Manifest>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_ANSI|x64'">
     <ClCompile>
@@ -653,6 +735,12 @@
       <SDLCheck>true</SDLCheck>
       <SuppressStartupBanner>false</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
+      <DiagnosticsFormat>Caret</DiagnosticsFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <OpenMPSupport>false</OpenMPSupport>
+      <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>PLATFORM_IS_$(Platform);NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -681,8 +769,16 @@
       <RandomizedBaseAddress>true</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <SuppressStartupBanner>false</SuppressStartupBanner>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <PerUserRedirection>true</PerUserRedirection>
+      <MapExports>true</MapExports>
+      <TypeLibraryResourceID />
+      <CLRSupportLastError>Enabled</CLRSupportLastError>
     </Link>
     <PostBuildEvent />
+    <Manifest>
+      <SuppressStartupBanner>false</SuppressStartupBanner>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
@@ -869,22 +965,18 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CharPosMacros_WW.H" />
-    <ClInclude Include="Const_Typedefs_WW.H" />
-    <ClInclude Include="MathMacros_WW.H" />
-    <ClInclude Include="NativeConssoleAppAids.h" />
     <ClInclude Include="NativeConssoleAppAids_Pvt.h" />
-    <ClInclude Include="NativeStringAids.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TcharMacros_WW.H" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.c" />
     <ClCompile Include="ShowPlatformA.c" />
     <ClCompile Include="ShowPlatformW.c" />
     <ClCompile Include="ShowProgramInfoA.c" />
-    <ClCompile Include="ShowProgramInfoW.c" />
+    <ClCompile Include="ShowProgramInfoW.c">
+      <MultiProcessorCompilation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MultiProcessorCompilation>
+    </ClCompile>
     <ClCompile Include="CRTWaitForCarbonUnitA.c" />
     <ClCompile Include="CRTWaitForCarbonUnitW.c" />
   </ItemGroup>

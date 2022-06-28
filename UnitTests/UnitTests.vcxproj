@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_ANSI|ARM">
@@ -833,7 +833,6 @@
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="UnitTests.h" />
-    <ClInclude Include="NativeStringAids.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="UnitTests.c" />
@@ -842,7 +841,7 @@
     <ResourceCompile Include="UnitTests.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\Create32\WW_Icon1.ico" />
+    <Image Include="WW_Icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -850,7 +849,7 @@
   <!--
     ============================================================================
     2019/03/14 - DAG - To find other empty targets such as these two that you
-                       can redefine (override) to do tuff, look for the
+                       can redefine (override) to do stuff, look for the
                        following string at the beginning of an XML comment.
 
                        		Redefine this target in your project
@@ -880,8 +879,8 @@
                        imported target, it must follow the import. To be on the
                        safe side, it is defined dead last.
     ============================================================================
-  -->
   <Target Name="AfterBuild">
     <Copy SourceFiles="@(CrtLibraryDLL)" DestinationFolder="$(OutDir)" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="true" UseHardlinksIfPossible="true" />
   </Target>
+  -->
 </Project>

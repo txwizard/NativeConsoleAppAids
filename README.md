@@ -1,5 +1,26 @@
 # NativeConssoleAppAids for Intel and ARM Processors ReadMe
 
+__Current Version:__ 1.0.0.8
+
+This maintenance release does two things.
+
+1. It eliminates attempts, all doomed to fail, and handled poorly by the
+Structured Exception Handling blocks that were intended to make them transparent
+to callers. Though the code remains in the deprecated ANSI (narrow character)
+configurations, those have fallen into disuse of late, to the point that I chose
+to ignore the fact that several unit test builds failed in the link step due to
+an undefined symbol that has no business in ANSI builds.
+
+2. ShowProgramInfo has an optional Boolean that controls whether the platform
+information is displayed. To remain more or less compatible with legacy code,
+the default (FALSE) value causes the hardware platform to be displayed. Set the
+new argument to TRUE to suppress it.
+
+Owing to the additional parameter, this is a breaking change.
+
+Finally, since they are no longer being maintained, the ARM and ARM64 builds are
+gone.
+
 __Current Version:__ 1.0.0.6
 
 __Release Date:__ Friday, 26 July 2019, version 1.0.0.6

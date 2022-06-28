@@ -10,10 +10,15 @@
 
 	int rintResult = ERROR_SUCCESS;
 
-	LPTSTR lpModuleFileName = GetExeHameFromWindows ( );
-	LPTSTR lpszVersionString = AllocTchars_WW ( BUFSIZE_VERSION_STRING );
-	LPTSTR lpszModuleBaseName = ProgramIDFromArgV ( lpModuleFileName );
-	FILE * hOutDest = pfDirectToStandardError ? stderr : stdout;
+	LPTSTR lpModuleFileName = NULL;
+	LPTSTR lpszVersionString = NULL;
+	LPTSTR lpszModuleBaseName = NULL;
+	FILE* hOutDest = NULL;
+
+	lpModuleFileName = GetExeHameFromWindows ( );
+	lpszVersionString = AllocTchars_WW ( BUFSIZE_VERSION_STRING );
+	lpszModuleBaseName = ProgramIDFromArgV ( lpModuleFileName );
+	hOutDest = pfDirectToStandardError ? stderr : stdout;
 
 	if ( rintResult = GetFileVersion ( lpszVersionString , BUFSIZE_VERSION_STRING , lpModuleFileName ) )
 	{
@@ -36,10 +41,15 @@
 	#pragma warning ( suppress : 4312 )
 	lpszVersionString	= ( LPTSTR ) FreeBuffer_WW ( lpszVersionString );
 
-	ShowPlatform ( GetStringPointer ( m_hModuleOfThisDLL ,
-		                              IDS_STRING117 ,
-		                              FB_HIDE_LENGTH ) ,
-		           pfDirectToStandardError );
+	Unless ( pfOmitPlatformInfo )
+	{
+		ShowPlatform (
+			GetStringPointer (
+				m_hModuleOfThisDLL ,
+				IDS_STRING117 ,
+				FB_HIDE_LENGTH ) ,
+			pfDirectToStandardError );
+	}	// Unless ( pfOmitPlatformInfo )
 
 	return lpszModuleBaseName;
 //	ShowProgramInfo ends here.

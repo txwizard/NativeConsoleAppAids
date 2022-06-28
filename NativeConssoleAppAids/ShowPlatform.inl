@@ -57,6 +57,8 @@
 	#endif	/* #if !defined ( PLATFORM_NAME_ID ) */
 #endif	/* #if defined ( _MSC_VER ) && ( _MSC_VER >= 1020 ) */
 
+	DWORD   dwLastError = ERROR_SUCCESS;
+
 	LPTSTR	lpszPlatformString = GetStringPointer ( m_hModuleOfThisDLL ,
 						                            PLATFORM_NAME_ID ,
 									                FB_HIDE_LENGTH );
@@ -75,8 +77,20 @@
 	//	returns +1, that address is invalid in user mode.
 	//	------------------------------------------------------------------------
 
-	#pragma warning ( suppress : 4312 )
-	lpszPlatformString = ( LPTSTR ) FreeBuffer_WW ( lpszPlatformString );
+	__try
+	{
+		#if defined ( UNICODE )
+		#pragma message ( "This UNICODE build must dispense with deallocating storage assigned to resource strings, as they are being read from the copies that are baked into the binary.")
+		#else
+		#pragma message ( "This ANSI build must deallocate storage assigned to resource strings, as they are read from buffers allocated from the default process heap.")
+		#pragma warning ( suppress : 4312 )
+		lpszPlatformString = ( LPTSTR ) FreeBuffer_WW ( lpszPlatformString );
+		#endif	/* #if defined ( UNICODE ) */
+	}
+	__except ( dwLastError = GetExceptionCode ( ) )
+	{   // __except == catch in C++, C#, and VB.NET
+		SetLastError ( dwLastError );
+	}   // Try/Catch block.
 
 	//	------------------------------------------------------------------------
 	//	Though discarding a buffer that was passed into a routine is usually a
@@ -86,10 +100,36 @@
 	//	is fairly safe. Nevertheless, this routine first attempts to get the
 	//	size of the buffer from the heap manager. Unless the reported size is
 	//	greater than -1, the attempt is abandoned.
+	// 
+	//	Monday, 27 June 2022:	Since using HeapSize has become so troublesome,
+	//							and ANSI strings are deprecated, the practice is
+	//							henceforth restricted to ANSI builds.
 	//	------------------------------------------------------------------------
 
-	if ( IsBufFerFromHeap ( m_hProcHeap , ( LPTSTR ) plpszFormatString ) )
-	{ 
-		FreeBuffer_WW ( ( LPTSTR ) plpszFormatString );
-	}	// if ( IsBufFerFromHeap ( m_hProcHeap , plpszFormatString ) )
+	__try
+	{
+
+		#if defined ( UNICODE )
+		#pragma message ( "This UNICODE build must dispense with deallocating storage assigned to resource strings, as they are being read from the copies that are baked into the binary.")
+		#else
+		#pragma message ( "This ANSI build must deallocate storage assigned to resource strings, as they are read from buffers allocated from the default process heap.")
+		if ( IsBufFerFromHeap ( m_hProcHeap , ( LPTSTR ) plpszFormatString ) )
+		{
+			FreeBuffer_WW ( ( LPTSTR ) plpszFormatString );
+		}	// if ( IsBufFerFromHeap ( m_hProcHeap , plpszFormatString ) )
+		#endif	/* #if defined ( UNICODE ) */
+	}
+	__except ( dwLastError = GetExceptionCode ( ) )
+	{   // __except == catch in C++, C#, and VB.NET
+		SetLastError ( dwLastError );
+	}   // Try/Catch block.
+
+	if ( dwLastError )
+	{	// For what it's worth, if anything, report the status code set by the exception handler.
+		_tprintf (
+			FB_FormatMessage2 (
+				IDS_STRING121 ,
+				dwLastError ,
+				FB_SCF2_HEXADECIMAL ) );
+	}	// if ( dwLastError )
 // ShowPlatform ends here.

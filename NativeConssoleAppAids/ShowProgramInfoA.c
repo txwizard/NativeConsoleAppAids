@@ -16,7 +16,8 @@
 
 LPTSTR LIBSPEC_NATIVECONSSOLEAPPAIDS_API ShowProgramInfoA
 (
-	BOOL pfDirectToStandardError
+	BOOL pfDirectToStandardError ,
+	BOOL pfOmitPlatformInfo
 )
 {
 	#include ".\ShowProgramInfo.inl"

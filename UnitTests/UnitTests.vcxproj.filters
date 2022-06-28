@@ -6,12 +6,11 @@
   <ItemGroup>
     <ClInclude Include="UnitTests.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="NativeStringAids.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="UnitTests.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\Create32\WW_Icon1.ico" />
+    <Image Include="WW_Icon1.ico" />
   </ItemGroup>
 </Project>

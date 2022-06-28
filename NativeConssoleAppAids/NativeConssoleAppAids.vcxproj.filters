@@ -10,15 +10,9 @@
     <ClCompile Include="CRTWaitForCarbonUnitW.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharPosMacros_WW.H" />
-    <ClInclude Include="Const_Typedefs_WW.H" />
-    <ClInclude Include="MathMacros_WW.H" />
-    <ClInclude Include="NativeConssoleAppAids.h" />
     <ClInclude Include="NativeConssoleAppAids_Pvt.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TcharMacros_WW.H" />
-    <ClInclude Include="NativeStringAids.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CRTWaitForCarbonUnit.inl" />

@@ -15,7 +15,7 @@ int main( int argc , char * argv [ ] )
 	int rintRC				= NO_ERROR;
 	LPTSTR lpszProgramID	= NULL;
 
-	if ( ( lpszProgramID = ShowProgramInfo ( FALSE ) ) )
+	if ( ( lpszProgramID = ShowProgramInfo ( FALSE , TRUE ) ) )
 	{
 #if defined ( UNICODE )
 		_tprintf ( L"Hello World!\n" );
@@ -26,7 +26,7 @@ int main( int argc , char * argv [ ] )
 		_tprintf ( "\n%s done!\n" ,
 			       lpszProgramID );
 #endif	/* #if defined ( UNICODE ) */
-	}	// TRUE (anticipated outcome) block, if ( ( lpszProgramID = ShowProgramInfo ( ) ) )
+	}	// TRUE (anticipated outcome) block, if ( ( lpszProgramID = ShowProgramInfo ( FALSE , TRUE ) ) )
 	else
 	{
 		rintRC = GetLastError ( );
@@ -35,7 +35,7 @@ int main( int argc , char * argv [ ] )
 		#else
 		_tprintf ( "\nprogram aborted\n" );
 #endif	/* #if defined ( UNICODE ) */
-	}	// FALSE (unanticipated outcome) block, if ( ( lpszProgramID = ShowProgramInfo ( ) ) )
+	}	// FALSE (unanticipated outcome) block, if ( ( lpszProgramID = ShowProgramInfo ( FALSE , TRUE ) ) )
 
 	wfcuParams.dwDuration	= 500;
 	wfcuParams.dwFreqquency = 880;
